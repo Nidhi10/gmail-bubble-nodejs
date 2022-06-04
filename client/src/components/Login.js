@@ -1,7 +1,6 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 
-const CLIENT_ID = "290777766-t5rp22ckjf5jtc9f3kh5tmteucn5t3bu.apps.googleusercontent.com"
 class Login extends React.Component {
     
     constructor(props) {
@@ -21,6 +20,7 @@ class Login extends React.Component {
     render() {
       return (
         <div>
+          <h1>kdsjowqjfojdowf</h1>
           <GoogleLogin
             onSuccess={this.onSuccess}
             onError={this.onError}
