@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Nidhi10/gmail-bubble-nodejs#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "googleapis": "^100.0.0"
   }
 }

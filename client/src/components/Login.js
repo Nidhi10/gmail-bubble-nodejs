@@ -1,34 +1,19 @@
 import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
+import {useGoogleLogin } from '@react-oauth/google';
 
-class Login extends React.Component {
-    
-    constructor(props) {
-      super(props);
-      this.onSuccess = this.onSuccess.bind(this)
-      this.onError = this.onError.bind(this)
-    }
+function Login({onLogin}) {
+  const login =  useGoogleLogin({
+    onSuccess: ({access_token}) => {
+      localStorage.setItem('access_token', access_token)
+      onLogin()
+    },
+    scope: 'https://mail.google.com/'
+  })
 
-    onSuccess = (res) => {
-        console.log("Login success: ",  res)
-    };
-
-    onError = (res) => {
-        console.log("Login Failed: ", res)
-    };
-
-    render() {
-      return (
-        <div>
-          <h1>kdsjowqjfojdowf</h1>
-          <GoogleLogin
-            onSuccess={this.onSuccess}
-            onError={this.onError}
-            useOneTap
-          />
-        </div>
-      )
-    };
+  return (
+  <li>
+    <a onClick={login} href="#">Login</a>
+  </li>)
   }
   
   export default Login;

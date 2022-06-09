@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
     Route,
     NavLink,
@@ -9,31 +9,36 @@ import {
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
- 
 
+function Main() {
+  const [isSignedIn, setSignedIn] = useState(false)
 
-class Main extends React.Component {
-  render() {
-    return (
-        <BrowserRouter>
-            <div>
-              <h1>Gmail Bubble</h1>
-              <ul className="header">
-                <li><NavLink to="/">Home</NavLink></li>
-                <li><NavLink to="/login">Login to Gmail</NavLink></li>
-                <li><NavLink to="/logout">Logout</NavLink></li>
-              </ul>
-              <div className="content">
-                <Routes>
-                  <Route exact path="/" element={<Home />}/>
-                  <Route path="/login" element={<Login />}/>
-                  <Route path="/logout" element={<Logout />}/>
-                </Routes>
-              </div>
-            </div>
-        </BrowserRouter>
-    );
-  }
+  const handleLogin = useCallback(() => {
+    setSignedIn(true)
+  }, [])
+
+  const handleLogout = useCallback(() => {
+    setSignedIn(false)
+  }, [])
+
+  return ( 
+    <BrowserRouter>
+      <div>
+        <h1>Gmail Bubble</h1>
+        <ul className="header">
+          <li><NavLink to="/">Home</NavLink></li>
+          {isSignedIn ? <Logout onLogout={handleLogout} /> : <Login onLogin={handleLogin} />}
+        </ul>
+     <div className="content">
+      <Routes>
+        <Route exact path="/" element={<Home />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/logout" element={<Logout />}/>
+      </Routes>
+        </div>
+      </div>   
+    </BrowserRouter>
+  );
 }
- 
+
 export default Main;

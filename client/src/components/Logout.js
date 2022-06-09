@@ -1,28 +1,38 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { googleLogout } from '@react-oauth/google';
+import {useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-class Logout extends React.Component {
-    
-    constructor(props) {
-      super(props);
-      this.onClick = this.onClick.bind(this)
+function Logout({onLogout}) {
+  const navigate = useNavigate();
+
+  const logout = useCallback(() => {
+    googleLogout();
+    localStorage.removeItem('access_token')
+    onLogout();
+  }, [onLogout]);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('access_token')
+    if (accessToken) {
+      axios.get('https://gmail.googleapis.com/gmail/v1/users/me/profile', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }).then((res) => {
+        console.log(res.data.emailAddress)
+        navigate("/", {state: {email: res.data.emailAddress}})
+      })
+    } else {
+      onLogout()
     }
+  }, [onLogout])
 
-    onClick = (res) => {
-      googleLogout();
-      console.log("Logout success: ", res )
-    };
+  return (
+      <li>
+        <a onClick={logout} href="#">Logout</a>
+      </li>
+  )
+}
 
-    render() {
-      return (
-        <div>
-        <button onclick={this.onClick()}>
-          Signout
-        </button>
-        </div>
-      )
-    };
-  }
-  
-  export default Logout;
-  
+export default Logout;
