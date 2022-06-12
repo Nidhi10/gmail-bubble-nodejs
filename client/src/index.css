@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.node:hover{
+  stroke-width: 3px !important;
+  opacity: 1 !important;
+}

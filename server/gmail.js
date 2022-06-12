@@ -1,16 +1,16 @@
-// 'use strict';
+'use strict';
 
-// const { google } = require('googleapis');
-// const { env } = require('process');
+const { google } = require('googleapis');
+const { env } = require('process');
 // const readline = require('readline');
 // const fs = require('fs');
 
-// // If modifying these scopes, delete token.json.
+// If modifying these scopes, delete token.json.
 // const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 
-// // The file token.json stores the user's access and refresh tokens, and is
-// // created automatically when the authorization flow completes for the first
-// // time.
+// The file token.json stores the user's access and refresh tokens, and is
+// created automatically when the authorization flow completes for the first
+// time.
 // const TOKEN_PATH = 'token.json';
 
 // authorize(listLabels);
@@ -37,12 +37,14 @@
 // }
 
 
-// /**
-//  * Get and store new token after prompting for user authorization, and then
-//  * execute the given callback with the authorized OAuth2 client.
-//  * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
-//  * @param {getEventsCallback} callback The callback for the authorized client.
-//  */
+
+
+/**
+ * Get and store new token after prompting for user authorization, and then
+ * execute the given callback with the authorized OAuth2 client.
+ * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
+ * @param {getEventsCallback} callback The callback for the authorized client.
+ */
 // function getNewToken(oAuth2Client, callback) {
 //     const authUrl = oAuth2Client.generateAuthUrl({
 //         access_type: 'offline',
@@ -91,6 +93,19 @@
 //     });
 //   }
 
-// module.exports = {
-//     listLabels,
-// };
+function getToken(code) {
+    const client_secret =  env.CLIENT_SECRET;
+    const client_id =  env.CLIENT_ID;
+    const redirect_uris  = env.REDIRECT_URIS;
+    console.log(code);
+    const oAuth2Client = new google.auth.OAuth2(
+        client_id, client_secret, redirect_uris);
+
+    const { tokens } =  oAuth2Client.getToken(code); // exchange code for tokens
+    console.log(tokens);
+    return tokens;
+}
+
+module.exports = {
+    getToken,
+};
